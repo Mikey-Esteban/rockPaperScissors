@@ -1,50 +1,109 @@
 console.log("script is running");
 
 let button = document.querySelector(".btn");
-button.addEventListener('click', play);
+button.addEventListener('click', game);
+let userScoreText = document.querySelector("#userDisplay");
+let compScoreText = document.querySelector("#compDisplay");
+let scoreDisplay = document.querySelector("#scoreDisplay");
+console.log(scoreDisplay)
 
+function game(){
+    while (userScoreText.textContent < 3 && compScoreText.textContent < 3) {
+      play();
+    }
+    classes = scoreDisplay.classList
+    classes.remove("noDisplay");
+    alert('Thanks for playing!!');
+}
 
 function play(){
-  let message = winnerIs(userChoice(), computerChoice());
-  alert(message);
+  let round = winnerIs(userSelection(), computerPlay());
+  let finalMessage;
+  if (round.winner) {
+    round.winner.textContent++;
+    let score = 'User: ' + userScoreText.textContent + ' vs Comp: ' + compScoreText.textContent;
+    finalMessage = round.message + '\n' + score;
+  }
+  else {
+    finalMessage = 'You both tied!';
+  }
+  alert(finalMessage);
 }
 
 
 //determine winner
+// takes in userSelection and compSelection
+// returns userSelection, compSelection, and winner
 function winnerIs(user, comp) {
   if (user == 'rock' && comp == 'paper'){
-    return 'You lost =( paper beats rock'
+    let winner = compScoreText;
+    let message = 'computer chose paper\n You lost =( paper beats rock';
+    return {message, winner}
+    // compScoreText.textContent ++;
   }
   else if (user == 'rock' && comp == 'scissor') {
-    return 'You won! rock beats scissor'
+    let winner = userScoreText;
+    let message = 'computer chose scissor\n You won! rock beats scissor';
+    return {message, winner}
+    // userScoreText.textContent ++;
+    // let message = 'computer chose scissor\n You won! rock beats scissor';
+    // return message + 'You won! rock beats scissor'
   }
   else if (user == 'paper' && comp == 'scissor') {
-    return 'You lost! scissor beats paper'
+    let winner = compScoreText;
+    let message = 'computer chose scissor\n You lost! scissor beats paper';
+    return {message, winner}
+    // compScoreText.textContent ++;
+    // let message = 'computer chose scissor\n You lost! scissor beats paper';
+    // return message + 'You lost! scissor beats paper'
   }
   else if (user == 'paper' && comp == 'rock') {
-    return 'You won! paper beats rock'
+    let winner = userScoreText;
+    let message = 'computer chose rock\n You won! paper beats rock';
+    return {message, winner}
+    // userScoreText.textContent ++;
+    // let message = 'computer chose rock\n You won! paper beats rock';
+    // return message + 'You won! paper beats rock'
   }
   else if (user == 'scissor' && comp == 'rock') {
-    return 'You lost! rock crushes scissor'
+    let winner = compScoreText;
+    let message = 'computer chose rock\n You lost! rock crushes scissor';
+    return {message, winner}
+    // compScoreText.textContent ++;
+    // let message = 'computer chose rock\n You lost! rock crushes scissor';
+    // return message + 'You lost! rock crushes scissor'
   }
   else if (user == 'scissor' && comp == 'paper') {
-    return 'You won! scissor cuts paper'
+    let winner = userScoreText;
+    let message = 'computer chose paper\n You won! scissor cuts paper';
+    return {message, winner}
+    // userScoreText.textContent ++;
+    // let message = 'computer chose paper\n You won! scissor cuts paper';
+    // return message + 'You won! scissor cuts paper'
   }
   else{
-    return 'You both picked ' + user
+    let message = 'tie!\n';
+    return message + 'You both picked ' + user
   }
 }
 
 
 // ask user for choice
-function userChoice() {
-  let choice = prompt("what is your pick? (rock paper scissor)")
-  choice = choice.toLowerCase();
-  return choice
+function userSelection() {
+  selection = ['rock', 'paper', 'scissor']
+
+  while (true) {
+    let choice = prompt("Please choose one of these options =) (rock paper scissor)")
+    choice = choice.toLowerCase();
+
+    if (selection.includes(choice)) {
+      return choice
+    }
+  }
 }
 
 // computer picks between rock, paper, scissor
-function computerChoice() {
+function computerPlay() {
   let choice = Math.floor(Math.random() * 3);
   if (choice == 0){
     return 'rock';

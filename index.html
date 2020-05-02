@@ -5,6 +5,8 @@
     <title>Rock, Paper, Scissors Game</title>
     <!-- icon tab -->
     <link rel = "icon" type = "image/png" href = "assets/mdLogo.jpg">
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/c483931770.js" crossorigin="anonymous"></script>
     <!-- bootstrap 4 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
@@ -17,7 +19,19 @@
       <p class="lead">
         <a class="btn btn-primary btn-lg" href="#" role="button">Play!</a>
       </p>
-      <h5 id="scoreDisplay" class="noDisplay">Final score: <span id="userDisplay">0</span> vs <span id="compDisplay">0</span></h5>
+      <div class="noDisplay" id="hide-container">
+        <div class="" id="choice-container">
+          <div id="main-div">
+            <p>Please choose your weapon!</p>
+            <a class="hand-icon" id="rock" href="#"><i class="far fa-hand-rock"></i></a>
+            <a class="hand-icon" id="paper" href="#"><i class="far fa-hand-paper"></i></a>
+            <a class="hand-icon" id="scissor" href="#"><i class="far fa-hand-scissors"></i></a>
+            <h5 id="scoreDisplay">Score: <span id="userDisplay">0</span> vs <span id="compDisplay">0</span></h5>
+          </div>
+          <div id="round-description"> yo whats up</div>
+        </div>
+      </div>
+      <!-- <h5 id="scoreDisplay" class="noDisplay">Score: <span id="userDisplay">0</span> vs <span id="compDisplay">0</span></h5> -->
     </div>
     <script type="text/javascript" src="script.js"></script>
   </body>

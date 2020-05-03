@@ -4,103 +4,141 @@ let button = document.querySelector(".btn");
 button.addEventListener('click', game);
 let userScoreText = document.querySelector("#userDisplay");
 let compScoreText = document.querySelector("#compDisplay");
+let jumbotron = document.querySelector(".jumbotron");
+let mainDiv = document.querySelector("#main-div");
 let scoreDisplay = document.querySelector("#scoreDisplay");
-console.log(scoreDisplay)
+let hideContainer = document.querySelector("#hide-container");
+let choiceContainer = document.querySelector("#choice-container")
+let roundDescription = document.querySelector("#round-description");
+let rockIcon = document.querySelector("#rock");
+let paperIcon = document.querySelector("#paper");
+let scissorIcon = document.querySelector("#scissor");
+let winnerText;
+let loserText;
+let finalScoreText;
+let counter = 0;
 
 function game(){
-    while (userScoreText.textContent < 3 && compScoreText.textContent < 3) {
-      play();
+  if (counter == 0) {
+  play();
+  }
+  else{
+    console.log('we removed event listener')
+    button.removeEventListener('click', game);
+    button.textContent = 'Play!'
+    classes = hideContainer.classList
+    roundDescription.textContent = "lets see if you got what it takes!"
+    if (finalScoreText) {
+      finalScoreText.textContent = '';
     }
-    classes = scoreDisplay.classList
-    classes.remove("noDisplay");
-    alert('Thanks for playing!!');
+    classes.toggle("noDisplay");
+    button.addEventListener('click', game);
+  }
 }
+
 
 function play(){
-  let round = winnerIs(userSelection(), computerPlay());
-  let finalMessage;
-  if (round.winner) {
-    round.winner.textContent++;
-    let score = 'User: ' + userScoreText.textContent + ' vs Comp: ' + compScoreText.textContent;
-    finalMessage = round.message + '\n' + score;
+  button.textContent = 'Play!'
+  classes = hideContainer.classList
+  roundDescription.textContent = "lets see if you got what it takes!"
+  if (finalScoreText) {
+    finalScoreText.textContent = '';
   }
-  else {
-    finalMessage = 'You both tied!';
-  }
-  alert(finalMessage);
+  classes.toggle("noDisplay");
+
+  weapons = document.querySelectorAll(".hand-icon");
+  weapons.forEach(function(weapon) {
+    weapon.addEventListener('click', function(){
+      userWeapon = this.id;
+      counter++;
+      console.log(counter);
+      round = chooseWinner(userWeapon, computerPlay());
+      finalMessage = '';
+      // score;
+      if (round.winner) {
+        console.log('round winner is ' + round.winner)
+        console.log()
+        // console.log('someone won !')
+        round.winner.textContent++;
+        score = 'User: ' + userScoreText.textContent + ' vs Comp: ' + compScoreText.textContent;
+        sentences = round.message.split('.');
+        sentences.forEach(function(sentence){
+          finalMessage += sentence + '\n'
+        });
+      }
+      else {
+        console.log(round.message)
+        finalMessage = 'You both tied!';
+      }
+      console.log(finalMessage)
+      // console.log(score)
+      console.log('------')
+      roundDescription.textContent = finalMessage;
+      console.log('we are line right before total score checker')
+      if (userScoreText.textContent >= 5 || compScoreText.textContent >= 5) {
+        alert('game finished')
+        writeFinalScore(userScoreText, compScoreText)
+
+        classes.toggle('noDisplay');
+      }
+    })
+  })
 }
 
+function writeFinalScore(userScoreText, compScoreText) {
+  finalScoreText = document.createElement('h1');
+  if (userScoreText.textContent > compScoreText.textContent) {
+    finalScoreText.textContent = "Congrats you won!!! " + userScoreText.textContent + " to " + compScoreText.textContent;
+  }
+  else {
+    finalScoreText.textContent = 'Sorry, you lost :(( ' + userScoreText.textContent + " to " + compScoreText.textContent;
+  }
+  jumbotron.appendChild(finalScoreText);
+  userScoreText.textContent = 0;
+  compScoreText.textContent = 0;
+  button.textContent = 'Play again?'
+}
 
 //determine winner
 // takes in userSelection and compSelection
 // returns userSelection, compSelection, and winner
-function winnerIs(user, comp) {
+function chooseWinner(user, comp) {
   if (user == 'rock' && comp == 'paper'){
     let winner = compScoreText;
-    let message = 'computer chose paper\n You lost =( paper beats rock';
+    let message = 'computer chose paper. You lost =(. paper beats rock';
     return {message, winner}
-    // compScoreText.textContent ++;
   }
   else if (user == 'rock' && comp == 'scissor') {
     let winner = userScoreText;
-    let message = 'computer chose scissor\n You won! rock beats scissor';
+    let message = 'computer chose scissor. You won! rock beats scissor';
     return {message, winner}
-    // userScoreText.textContent ++;
-    // let message = 'computer chose scissor\n You won! rock beats scissor';
-    // return message + 'You won! rock beats scissor'
   }
   else if (user == 'paper' && comp == 'scissor') {
     let winner = compScoreText;
-    let message = 'computer chose scissor\n You lost! scissor beats paper';
+    let message = 'computer chose scissor. You lost. scissor beats paper';
     return {message, winner}
-    // compScoreText.textContent ++;
-    // let message = 'computer chose scissor\n You lost! scissor beats paper';
-    // return message + 'You lost! scissor beats paper'
   }
   else if (user == 'paper' && comp == 'rock') {
     let winner = userScoreText;
-    let message = 'computer chose rock\n You won! paper beats rock';
+    let message = 'computer chose rock. You won. paper beats rock';
     return {message, winner}
-    // userScoreText.textContent ++;
-    // let message = 'computer chose rock\n You won! paper beats rock';
-    // return message + 'You won! paper beats rock'
   }
   else if (user == 'scissor' && comp == 'rock') {
     let winner = compScoreText;
-    let message = 'computer chose rock\n You lost! rock crushes scissor';
+    let message = 'computer chose rock. You lost. rock crushes scissor';
     return {message, winner}
-    // compScoreText.textContent ++;
-    // let message = 'computer chose rock\n You lost! rock crushes scissor';
-    // return message + 'You lost! rock crushes scissor'
   }
   else if (user == 'scissor' && comp == 'paper') {
     let winner = userScoreText;
-    let message = 'computer chose paper\n You won! scissor cuts paper';
+    let message = 'computer chose paper. You won. scissor cuts paper';
     return {message, winner}
-    // userScoreText.textContent ++;
-    // let message = 'computer chose paper\n You won! scissor cuts paper';
-    // return message + 'You won! scissor cuts paper'
   }
   else{
-    let message = 'tie!\n';
-    return message + 'You both picked ' + user
+    let message = 'tie!\n' + 'You picked ' + user + '   comp picked ' + comp;
+    return {message}
   }
 }
 
-
-// ask user for choice
-function userSelection() {
-  selection = ['rock', 'paper', 'scissor']
-
-  while (true) {
-    let choice = prompt("Please choose one of these options =) (rock paper scissor)")
-    choice = choice.toLowerCase();
-
-    if (selection.includes(choice)) {
-      return choice
-    }
-  }
-}
 
 // computer picks between rock, paper, scissor
 function computerPlay() {

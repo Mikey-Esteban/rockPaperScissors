@@ -1,3 +1,41 @@
 .noDisplay {
   display: none;
 }
+
+i {
+  font-size: 3rem;
+}
+
+.hand-icon{
+  color: rgba(0, 0, 0, .7);
+  text-decoration: none;
+  margin: 10px;
+  padding: 3px;
+}
+
+.hand-icon:hover {
+  color:black;
+}
+
+#main-div{
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+}
+
+#round-description{
+  grid-column: 3 / 4;
+  grid-row: 1 / 2;
+}
+
+#choice-container{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(30px, auto);
+
+}
+
+
+#scoreDisplay{
+  margin-top: 15px;
+}
